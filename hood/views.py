@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CreateHoodForm
 from django.contrib.auth.decorators import login_required
@@ -57,3 +57,16 @@ def create_neighbourhood(request):
     else:
         hood_form = CreateHoodForm()
     return render(request, 'createhood.html', locals())
+@login_required
+def join_neighbourhood(request, neighbourhood_id):
+    neighbourhood = get_object_or_404(Neighbourhood, pk=neighbourhood_id)
+    request.user.profile.neighbourhood = neighbourhood
+    request.user.profile.save()
+    return redirect(home)
+@login_required
+def leave_neighbourhood(request, neighbourhood_id):
+    neighbourhood = get_object_or_404(Neighbourhood, pk=neighbourhood_id)
+    if request.user.profile.neighbourhood == neighbourhood:
+        request.user.profile.neighbourhood=None
+        request.user.profile.save()
+    return redirect(home)
