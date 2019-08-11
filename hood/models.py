@@ -89,3 +89,22 @@ class Neighbourhood(models.Model):
     def find_neighbourhood_id(cls,id):
         neighbourhood = cls.objects.get(id=id)
         return neighbourhood
+class Business(models.Model):
+    buiness_name = models.TextField()
+    business_owner = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    show_email = models.BooleanField(default=True)
+    business_description = models.TextField(default='Trading business')
+    neighbourhood = models.ForeignKey(Neighbourhood, related_name='business', on_delete=models.CASCADE)
+    def __str__(self):
+        return self.busness_name
+
+
+    def create_business(self):
+        self.save()
+
+    def delete_business(self):
+        self.delete()
+
+    @property
+    def email(self):
+        return self.business_owner.user.email
