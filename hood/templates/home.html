@@ -4,9 +4,10 @@
 <div class="container">
 <div class="row">
  {% for hood in Neighbourhoods %}
+ 
   <!-- Grid column -->
-  <div class="col-md-4 mb-4">
-
+ 
+<div class="card-deck">
     <!--Card-->
     <div class="card blue lighten-4 mt-2">
 
@@ -27,11 +28,25 @@
         <p class="card-text black-text">Police contact info: {{hood.police_info}}</p>
         <p class="card-text black-text">Health services contact info: {{hood.health_department_info}}</p>
          <p class="card-text black-text">Occupants Count: {{hood.occupants_count}}</p>
+          {% if not request.user.profile.neighbourhood %}
+          <a href="{% url 'join' neighbourhood_id=hood.id %}">
+          <i class="material-icons" >add</i><button class="btn aqua-gradient btn-md">Join Neighbourhood</button>
+          </a>
+        {% elif request.user.profile.neighbourhood == hood %}
+          <a href="{% url 'leave' neighbourhood_id=hood.id %}">
+          <i class="material-icons" >add</i><button class="btn peach-gradient btn-md">Leave Neighbourhood</button>
+          </a>
+        
+          {% endif %}
+          
       </div>
 
-    </div>
+   
     <!--/.Card-->
-    {% endfor %}
-  </div>
+    </div>
+      {% endfor %}
+     </div>
+  
+ 
   </div>
 {% endblock %}
