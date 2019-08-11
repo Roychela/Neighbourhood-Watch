@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 # Create your models here.
 class Profile(models.Model):
+    name = models.CharField(max_length = 65, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='profile_pics/default.jpg', upload_to='profile_pics')
     bio = models.TextField(default='default')
@@ -18,6 +19,9 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_profile(sender, instance, **kwargs):
         instance.profile.save()
+    
+    def __str__(self):
+        return self.name
 class Neighbourhood(models.Model):
     COUNTY_CHOICES = (
 ('Baringo','Baringo County'),
@@ -108,3 +112,8 @@ class Business(models.Model):
     @property
     def email(self):
         return self.business_owner.user.email
+
+class Post(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    text = models.TextField()
+    neighbourhood = models.ForeignKey(Neighbourhood, related_name='posts', on_delete=models.CASCADE)
