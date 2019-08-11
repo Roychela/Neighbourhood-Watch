@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+{% with request.user.profile.neighbourhood as userhood %}
+<div class="container">
+<div class="row col-12 mb-2 py-2">
+    <div class="mx-2 float-left p-0 col-12 col-sm-6 col-md-4" style="min-height: 200px">
+        <div style='background-image: url("{{userhood.neighbourhood_image.url}}");height: 100%;' class="imageblock"></div>
+    </div>
+    <div class="float-left mx-4">
+        <div style="margin-bottom: 20px;">
+            <h2 style="vertical-align: middle"><strong>{{userhood.neighbourhood_name}}</strong></h2>
+            
+        </div>
+        <div>
+        <strong>{{ userhood.community.count }} members</strong> | <strong>{{ userhood.business.count }} Businesses</strong>
+        </div>
+        <div><i>{{ userhood.description }}</i></div>
+        </div>
+</div>
+<div>
+<ul class="nav nav-justified nav-tabs btn-group mb-4" id="pills-tab" role="tablist">
+  <li class="nav-item">
+        <button class="nav-link btn-block active peach-gradient black-text lastbtn" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+        Businesses
+    </button>
+  </li>
+  <li class="nav-item">
+    <button class="nav-link btn-block peach-gradient black-text lastbtn" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+        Posts
+    </button>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+    <a class="btn btn peach-gradient btn-sm  navigation" href="{% url 'createbusiness' %}">
+        <i class="fas fa-plus float-left pr-1 black-text"></i>
+        <div class="float-right black-text">Business</div>
+    </a>
+    <div>
+      {% for business in userhood.business.all %}
+    <div class="card col-12 col-sm-6 col-lg-4 float-left p-1 group" style="height: auto">
+     <div class="bg-white card-body text-center" style="height: 100%;">
+          <div class="text-left">
+              <h4 class="card-title">
+                  <strong>{{ business.buiness_name }}</strong>
+              </h4>
+              <div  class="card-text small">{{ business.business_description }}</div>
+              {% if business.show_email %}
+              <div><strong>CONTACT:</strong> {{ business.email }}</div>
+              {% endif %}
+              <span><strong>BUSINESS OWNER:</strong> {{ business.business_owner }}</span>
+          </div>
+     </div>
+    </div>
+    {% endfor %}
+    </div>
+  </div>
+ 
+  </div>
+   <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+    <a class="btn btn peach-gradient btn-sm  navigation" href="{% url 'createpost' %}">
+        <i class="fas fa-plus float-left black-text pr-1"></i>
+        <div class="black-text float-right">New Post</div>
+    </a>
+    <div>
+      {% for post in userhood.posts.all %}
+    <div class="card col-12 col-sm-6 col-lg-4 float-left p-1 group" style="height: auto">
+     <div class="bg-white card-body text-center" style="height: 100%;">
+          <div class="text-left">
+              <h4 class="card-title">
+                  <strong>{{ post.user.name }}</strong>
+              </h4>
+              <div  class="card-text">{{ post.text }}</div>
+          </div>
+     </div>
+    </div>
+    {% endfor %}
+    </div>
+  </div>
+  </div>
+</div>
+
+</div>
+
+   {% endwith%}
+  {% endblock %}
