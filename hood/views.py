@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CreateHoodForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CreateHoodForm, BusinessForm, PostForm
 from django.contrib.auth.decorators import login_required
 from .models import Neighbourhood
 # Create your views here.
@@ -70,3 +70,32 @@ def leave_neighbourhood(request, neighbourhood_id):
         request.user.profile.neighbourhood=None
         request.user.profile.save()
     return redirect(home)
+@login_required
+def user_neighbourhood(request):
+    return render(request, 'userhood.html')
+@login_required
+def create_business(request):
+    if request.method == 'POST':
+        form = BusinessForm(request.POST, request.FILES)
+        if form.is_valid():
+            business = form.save(commit=False)
+            business.business_owner = request.user.profile
+            business.neighbourhood = request.user.profile.neighbourhood
+            business.save()
+            return redirect(user_neighbourhood)
+    else:
+        form = BusinessForm()
+    return render(request, 'createbusiness.html', locals())
+@login_required
+def create_post(request):
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user.profile
+            post.neighbourhood = request.user.profile.neighbourhood
+            post.save()
+            return redirect(user_neighbourhood)
+    else:
+        form = PostForm()
+    return render(request, 'createpost.html', locals())
