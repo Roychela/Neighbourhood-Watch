@@ -69,7 +69,7 @@ class Neighbourhood(models.Model):
 ('West Pokot','West Pokot County'),
    
     )
-    neighbourhood_name = models.TextField()
+    neighbourhood_name = models.CharField(max_length = 100)
     neighbourhood_image = models.ImageField(upload_to='neighbourhoods/', default='neighbourhoods/default.png')
     admin = models.ForeignKey("Profile", related_name='hood', on_delete=models.CASCADE)
     neighbourhood_location = models.CharField(max_length = 100,choices=COUNTY_CHOICES)

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+<div class="container">
+<h2 class="text-center">Create new neighbourhood</h2>
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% bootstrap_form hood_form %}
+  <div class="form-group" style="text-align: center">
+    <input type="submit" class="btn btn-outline-success" value="Create hood">
+  </div>
+</form>
+</div>
+{% endblock %}

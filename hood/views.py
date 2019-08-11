@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm, CreateHoodForm
 from django.contrib.auth.decorators import login_required
-
+from .models import Neighbourhood
 # Create your views here.
+
 def home(request):
-    return render(request, 'home.html')
+    Neighbourhoods = Neighbourhood.objects.all()
+    return render(request, 'home.html', locals())
 
 def register(request):
     if request.method == 'POST':
@@ -18,7 +20,7 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'registration/register.html', {'form': form})
-@login_required
+
 @login_required
 def profile(request):
     if request.method == 'POST':
@@ -42,3 +44,16 @@ def profile(request):
     }
 
     return render(request, 'profile.html', context)
+@login_required
+def create_neighbourhood(request):
+    if request.method == 'POST':
+        form = CreateHoodForm(request.POST, request.FILES)
+        if form.is_valid():
+            hood = form.save(commit=False)
+            hood.admin = request.user.profile
+            request.user.profile.save()
+            hood.save()
+            return redirect(home)
+    else:
+        hood_form = CreateHoodForm()
+    return render(request, 'createhood.html', locals())
