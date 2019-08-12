@@ -21,7 +21,7 @@ A django application that allows users to be in the loop about everything happen
 
 ## SETUP
 ### Requirements
-* Django 1.11 
+* Django 2.2.4 
 ### Installation
 * Fork the data onto your own personal repository.
 * Clone Project to your machine
@@ -85,7 +85,7 @@ Open [localhost:8000](http://127.0.0.1:8000/)
 
 
 ## LIVE SITE
-Click [Live site]() to view the deployed application
+Click [Live site](https://roy1hoodwatch.herokuapp.com/) to view the deployed application
 ## KNOWN BUGS
 None
 
