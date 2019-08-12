@@ -1,0 +1,31 @@
+{% extends 'base.html' %} 
+{% load bootstrap4  %}
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    {% if neighbourhoods%}
+      <h2>Found {{ neighbourhoods|length }} of searched term {{message}}</h2>
+    {% else %}
+      <h2> Found 0 neighbourhoods for the search term {{message}}</h2>
+    {% endif %}
+
+  </div>
+
+  <div class="row">
+
+  {% if neighbourhoods %}
+    {% for neighbourhood in neighbourhoods %}
+      <div class="col-sm-6 col-md-3">
+       <div class="card text-center">
+           <img src={{neighbourhood.neighbourhood_image.url}} class="img-fluid">
+            <p class="card-text"><strong>{{neighbourhood.neighbourhood_name}} neighbourhood</strong></p>
+            <p class="card-text p-1"><strong>{{neighbourhood.neighbourhood_location}} County</strong></p>
+    <p class="card-text">{{neighbourhood.occupants_count}} occupants</p>
+      
+      </div>
+    {% endfor %}
+  {% endif %}
+  </div>
+</div>
+{% endblock %}

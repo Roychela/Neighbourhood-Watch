@@ -93,6 +93,10 @@ class Neighbourhood(models.Model):
     def find_neighbourhood_id(cls,id):
         neighbourhood = cls.objects.get(id=id)
         return neighbourhood
+    @classmethod
+    def search_neighbourhood(cls, name):
+        neighbourhood = Neighbourhood.objects.filter(neighbourhood_name__icontains = name)
+        return neighbourhood
 class Business(models.Model):
     buiness_name = models.TextField()
     business_owner = models.ForeignKey(Profile, on_delete=models.CASCADE)

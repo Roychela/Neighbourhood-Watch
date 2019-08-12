@@ -99,3 +99,15 @@ def create_post(request):
     else:
         form = PostForm()
     return render(request, 'createpost.html', locals())
+def search_results(request):
+
+    if 'neighbourhood' in request.GET and request.GET["neighbourhood"]:
+        search_term = request.GET.get("neighbourhood")
+        searched_neighbourhoods = Neighbourhood.search_neighbourhood(search_term)
+        message = f"{search_term}"
+
+        return render(request, 'search.html',{"message":message,"neighbourhoods": searched_neighbourhoods})
+
+    else:
+        message = "You haven't searched for any term"
+        return render(request, 'search.html',{"message":message})
