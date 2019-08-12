@@ -1,5 +1,5 @@
 <!--Navbar -->
-<nav class="mb-1 navbar navbar-expand-lg navbar-light blue lighten-4">
+<nav class="mb-1 navbar navbar-expand-lg navbar-light peach-gradient fixed-top">
 <i class="fa fa-eye mr-2" aria-hidden="true"></i>
   <a class="navbar-brand" href="#">Hood.Watch</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
@@ -38,6 +38,13 @@
     </ul>
     {% if user.is_authenticated %}
     <ul class="navbar-nav ml-auto nav-flex-icons">
+          {% if request.user.profile.neighbourhood %}
+            {% with request.user.profile.neighbourhood as hood %}
+              <li class="nav-item">
+                <a class="btn btn-block btn-outline-elegant navigation" href="{% url 'userneighbourhoods' %}">{{ hood.neighbourhood_name }} hood</a>
+              </li>
+          {% endwith %}
+          {% endif %}
       <li class="nav-item">
         <a class="nav-link waves-effect waves-light">
           <i class="fab fa-twitter"></i>
@@ -56,10 +63,10 @@
         <div class="dropdown-menu dropdown-menu-right dropdown-default"
           aria-labelledby="navbarDropdownMenuLink-333">
           <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-          <a class="dropdown-item" href="#">Edit Profile</a>
+          <a class="dropdown-item" href="{% url 'createpost' %}">Create Post</a>
           <a class="dropdown-item" href="{% url 'createhood' %}">Create Neighbourhood</a>
           <a class="dropdown-item" href="#">Join Neighbourhood</a>
-          <a class="dropdown-item" href="#">Post Business</a>
+          <a class="dropdown-item" href="{% url 'createbusiness' %}">Create Business</a>
           <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
         </div>
      

@@ -9,7 +9,7 @@
  
 <div class="card-deck">
     <!--Card-->
-    <div class="card blue lighten-4 mt-2">
+    <div class="card black-text mt-2">
 
       <!--Card image-->
       <div class="view">
@@ -20,7 +20,7 @@
       </div>
 
       <!--Card content-->
-      <div class="card-body text-center">
+      <div class="card-body text-center black-text">
         <!--Title-->
         <h4 class="card-title black-text">{{hood.neighbourhood_name}} Neighbourhood</h4>
         <!--Text-->
@@ -29,8 +29,8 @@
         <p class="card-text black-text">Health services contact info: {{hood.health_department_info}}</p>
          <p class="card-text black-text">Occupants Count: {{hood.occupants_count}}</p>
           {% if not request.user.profile.neighbourhood %}
-          <a href="{% url 'join' neighbourhood_id=hood.id %}">
-          <i class="material-icons" >add</i><button class="btn aqua-gradient btn-md">Join Neighbourhood</button>
+          <a href="{% url 'join' neighbourhood_id=hood.id %}" class="black-text">
+          <i class="material-icons" >add</i><button class="btn peach-gradient btn-md black-text">Join Neighbourhood</button>
           </a>
         {% elif request.user.profile.neighbourhood == hood %}
           <a href="{% url 'leave' neighbourhood_id=hood.id %}">
